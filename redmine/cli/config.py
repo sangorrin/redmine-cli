@@ -14,6 +14,8 @@ class Config:
         ]
         self.url = None
         self.api_key = None
+        self.user_id = None
+        self.password = None
         self.ssl_verify = True
         self.aliases = {}
         self.account = account
@@ -39,7 +41,16 @@ class Config:
             self.account = config["accounts"]["default"]
 
         self.url = config[self.account]["url"]
-        self.api_key = config[self.account]["key"]
+        if "key" in config[self.account]:
+            self.api_key = config[self.account]["key"]
+        elif "user_id" in config[self.account]:
+            self.user_id = config[self.account]["user_id"]
+            if "password" in config[self.account]:
+                self.password = config[self.account]["password"]
+            else:
+                raise KeyError("provide password for user %s", self.user_id)
+        else:
+            raise KeyError("key and user_id:password not found")
         self.ssl_verify = config[self.account].getboolean("ssl_verify")
 
         try:

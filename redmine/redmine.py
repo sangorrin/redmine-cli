@@ -4,14 +4,20 @@ from urllib.parse import urljoin
 
 import click
 import requests
-
+import base64
 
 class Redmine:
     def __init__(
-        self, url, api_key, ssl_verify=True, invalidate_cache=False, cache_initial=True
+        self, url, api_key, user_id, password, ssl_verify=True, invalidate_cache=False, cache_initial=True
     ):
         self.url = url
-        self.auth_header = {"X-Redmine-API-Key": api_key}
+        if api_key:
+            self.auth_header = {"X-Redmine-API-Key": api_key}
+        else:
+            user_pass = user_id + ':' + password
+            self.auth_header = {
+                'Authorization': 'Basic ' + base64.b64encode(user_pass.encode('utf-8')).decode()
+            }
         self.ssl_verify = ssl_verify
 
         self.cache_dir = os.path.join(os.getenv("HOME"), ".cache/redmine")

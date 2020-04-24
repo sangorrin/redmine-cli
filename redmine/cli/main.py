@@ -41,7 +41,7 @@ def cli(ctx, **kwargs):
         sys.exit(1)
 
     redmine = Redmine(
-        cfg.url, cfg.api_key, cfg.ssl_verify, invalidate_cache=kwargs.get("force")
+        cfg.url, cfg.api_key, cfg.user_id, cfg.password, cfg.ssl_verify, invalidate_cache=kwargs.get("force")
     )
     ctx.obj = redmine
 
