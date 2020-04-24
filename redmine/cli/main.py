@@ -387,9 +387,7 @@ def version():
 def open(redmine, issue_id):
     """ Open issue in browser """
 
-    from urllib.parse import urljoin
-
-    url = urljoin(redmine.url, "/issues/{}".format(issue_id))
+    url = redmine.url + "/issues/{}".format(issue_id)
     click.launch(url)
 
 
