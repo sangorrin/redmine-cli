@@ -1,6 +1,5 @@
 import json
 import os
-from urllib.parse import urljoin
 
 import click
 import requests
@@ -44,7 +43,7 @@ class Redmine:
 
     def fetch(self, resource, **kwargs):
         resp = requests.get(
-            urljoin(self.url, "{}.json".format(resource)),
+            self.url + "/" + "{}.json".format(resource),
             params={"limit": 100, **kwargs},
             headers=self.auth_header,
             verify=self.ssl_verify,
